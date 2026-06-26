@@ -1,0 +1,30 @@
+{
+  "name": "ganeshak11",
+  "version": "2.0.6",
+  "description": "A personal DevCard for Ganesh Angadi",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "ganeshak11": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./dist/index.js"
+  },
+  "author": "Ganesh Angadi",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^26.0.1",
+    "@types/qrcode-terminal": "^0.12.2",
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^8.5.2",
+    "@inquirer/search": "^4.2.1",
+    "boxen": "^8.0.1",
+    "chalk": "^5.6.2",
+    "open": "^11.0.0",
+    "ora": "^9.4.1",
+    "qrcode-terminal": "^0.12.0"
+  }
+}
