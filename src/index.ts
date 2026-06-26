@@ -81,7 +81,7 @@ async function main() {
         margin: 1,
         borderStyle: "double",
         borderColor: "yellow",
-        title: "v2.0.6",
+        title: "v2.1.0",
         titleAlignment: "right"
     });
 
