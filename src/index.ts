@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 
 import process from 'node:process';
-import { spawn } from 'node:child_process';
 import boxen from 'boxen';
 import chalk from 'chalk';
 import qrcode from 'qrcode-terminal';
 import search from '@inquirer/search';
-import { input, select } from '@inquirer/prompts';
+import { select } from '@inquirer/prompts';
 import open from 'open';
 import ora from 'ora';
 import { pkg, profile, displayUrl } from './profile.js';
@@ -51,8 +50,6 @@ const LIVE_TIMEOUT_MS = 1500;
  * "cursor up + clear line" forever and the buffered output grows by gigabytes.
  */
 const spinnerSafe = () => Boolean(process.stdout.isTTY && (process.stdout.columns ?? 0) > 0);
-const DOMAIN_RE = /^(?=.{1,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/i;
-const cleanDomain = (v: string) => v.trim().replace(/^https?:\/\//i, '').replace(/\/.*$/, '');
 
 async function loadLive(timeoutMs: number): Promise<LiveData | null> {
     if (flags.offline) return null;
@@ -145,36 +142,6 @@ async function showProjects(live: LiveData | null) {
     console.log('');
 }
 
-function runHealthcheck(domain: string): Promise<number | null> {
-    return new Promise(resolve => {
-        const isWin = process.platform === 'win32';
-        // The domain is validated against DOMAIN_RE, so passing it through the Windows shell is safe.
-        const child = spawn(isWin ? 'npx.cmd' : 'npx', ['-y', '@fortis-tools/healthcheck', domain], { stdio: 'inherit', shell: isWin });
-        // Let Ctrl+C stop the scan without killing the card.
-        const ignore = () => {};
-        process.on('SIGINT', ignore);
-        const done = (code: number | null) => {
-            process.off('SIGINT', ignore);
-            resolve(code);
-        };
-        child.on('error', () => done(null));
-        child.on('close', done);
-    });
-}
-
-async function healthcheck() {
-    const domain = cleanDomain(await input({
-        message: 'Domain to check:',
-        default: displayUrl(profile.links.portfolio),
-        validate: v => DOMAIN_RE.test(cleanDomain(v)) || 'Enter a domain like example.com',
-    }));
-
-    console.log(chalk.gray(`\nRunning npx @fortis-tools/healthcheck ${domain} ...\n`));
-    const code = await runHealthcheck(domain);
-    if (code === null) console.log(chalk.red('\nCould not start npx. Is Node/npm on your PATH?\n'));
-    else console.log(chalk.gray(`\nHealthCheck finished with exit code ${code}. More at https://github.com/Fortis-Tools/healthcheck\n`));
-}
-
 async function surprise() {
     const joke = JOKES[Math.floor(Math.random() * JOKES.length)];
     if (joke !== 'GITHUB_STATS') {
@@ -244,7 +211,6 @@ async function main() {
         { name: 'Copy Contact', value: 'copy', description: 'Copy my email or a link to your clipboard' },
         { name: 'Save vCard', value: 'vcard', description: 'Save my contact card (.vcf) to your Downloads folder' },
         { name: 'Download Resume', value: 'resume', description: 'View my resume' },
-        { name: 'Run Fortis HealthCheck', value: 'healthcheck', description: 'Check any domain with npx @fortis-tools/healthcheck' },
         { name: 'Surprise Me', value: 'easteregg', description: 'A little secret for you...' },
         { name: 'Exit', value: 'quit', description: 'Exit the CLI' },
     ];
@@ -274,7 +240,6 @@ async function main() {
                     console.log(chalk.red(`\nCouldn't save the vCard: ${(e as Error).message}\n`));
                 }
                 break;
-            case 'healthcheck': await healthcheck(); break;
             case 'qrcode':
                 console.log(chalk.bold.cyan('\nScan to visit my portfolio:\n'));
                 qrcode.generate(profile.links.portfolio, { small: true });

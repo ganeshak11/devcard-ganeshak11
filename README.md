@@ -20,7 +20,6 @@ npx ganeshak11
 - **Latest Projects**: Recently pushed repos with descriptions and links.
 - **Copy Contact**: Copies the email or a link to your clipboard (`pbcopy`, `clip`, `wl-copy`, `xclip` or `xsel`, with an OSC 52 fallback for terminals over SSH).
 - **Save vCard**: Saves a `.vcf` contact card to your Downloads folder.
-- **Run Fortis HealthCheck**: Checks any domain with [`@fortis-tools/healthcheck`](https://github.com/Fortis-Tools/healthcheck) without leaving the card.
 - **Scannable QR Code**: Scan the terminal with your phone to instantly visit my portfolio site using `qrcode-terminal`.
 - **Non-interactive mode**: `--plain` prints the card as text and `--json` prints the profile, for piping and READMEs. When the output isn't a terminal, `--plain` is used automatically.
 
