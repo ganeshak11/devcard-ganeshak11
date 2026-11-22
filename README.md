@@ -1,8 +1,6 @@
-# 👨‍💻 @ganeshak11/devcard
+# 👨‍💻 ganeshak11 — a developer's visiting card
 
-A sleek, interactive, and fully-featured personal business card built for the terminal. 
-
-This CLI tool serves as a digital identity card, showcasing my bio, technical skills, and contact links in a beautifully animated `boxen` layout complete with an interactive command palette and a scannable QR code!
+A flippable business card for the terminal. Run it, flip it over with <kbd>space</kbd>, and reach me in one keypress.
 
 ## 🚀 Quick Start
 
@@ -12,32 +10,43 @@ You can run the DevCard instantly without installing anything using `npx`:
 npx ganeshak11
 ```
 
-## ✨ Features
+## ✨ What you get
 
-- **Beautiful UI**: Built using `boxen` and `chalk` for a clean, colorful, and responsive terminal layout.
-- **Interactive Command Palette**: Type to search or use the arrow keys. Search also matches each item's description.
-- **Live data**: Repo count, total stars and the three most recently pushed repos come straight from the GitHub API (with a short timeout, so the card never hangs).
-- **Latest Projects**: Recently pushed repos with descriptions and links.
-- **Copy Contact**: Copies the email or a link to your clipboard (`pbcopy`, `clip`, `wl-copy`, `xclip` or `xsel`, with an OSC 52 fallback for terminals over SSH).
-- **Save vCard**: Saves a `.vcf` contact card to your Downloads folder.
-- **Scannable QR Code**: Scan the terminal with your phone to instantly visit my portfolio site using `qrcode-terminal`.
-- **Non-interactive mode**: `--plain` prints the card as text and `--json` prints the profile, for piping and READMEs. When the output isn't a terminal, `--plain` is used automatically.
+A developer's visiting card, drawn in truecolor right in your terminal.
+
+- **Front:** a pixel-art monogram tile, my name in a gradient, role, and where to find me.
+- **Back:** press <kbd>space</kbd> and the card flips over to show my stack as brand-colored badges, what I'm building now, and my most recently pushed repos, live from GitHub.
+- **QR side:** press <kbd>s</kbd> for a scannable QR code to my portfolio.
+- **One-key actions** instead of menus. It fits an 80×24 terminal, and narrow terminals get a compact layout.
+
+| Key | Action |
+|---|---|
+| <kbd>space</kbd> / <kbd>←</kbd> <kbd>→</kbd> | Flip the card |
+| <kbd>p</kbd> <kbd>g</kbd> <kbd>l</kbd> <kbd>r</kbd> | Open portfolio, GitHub, LinkedIn, resume |
+| <kbd>m</kbd> | Write me an email |
+| <kbd>c</kbd> | Copy my email to your clipboard |
+| <kbd>v</kbd> | Save my contact card (`.vcf`) to your Downloads folder |
+| <kbd>s</kbd> | Show a QR code |
+| <kbd>?</kbd> | A random DevOps one-liner |
+| <kbd>q</kbd> / <kbd>esc</kbd> | Quit (the card stays on screen) |
 
 ## 🎛️ Options
 
 | Flag | What it does |
 |---|---|
-| `--plain` | Print the card as plain text and exit |
-| `--json` | Print the profile (plus live GitHub data) as JSON and exit |
-| `--no-anim` | Skip the start-up spinner |
+| `--plain` | Print the card as plain text and exit (automatic when the output isn't a terminal) |
+| `--json` | Print the profile, plus live GitHub data, as JSON and exit |
+| `--no-anim` | Skip the deal-in and flip animations |
 | `--offline` | Don't fetch live data from GitHub |
 | `--version` | Print the version |
-| `--help` | Show the options |
+| `--help` | Show the options and keys |
 
 ```bash
 npx ganeshak11 --plain > card.txt
 npx ganeshak11 --json | jq .links
 ```
+
+Colors are 24-bit and degrade automatically on terminals with fewer colors.
 
 ## ✏️ Editing the card
 
@@ -59,9 +68,8 @@ git push --follow-tags
 ## 🛠️ Built With
 
 - [TypeScript](https://www.typescriptlang.org/)
-- [Inquirer.js](https://github.com/SBoudrias/Inquirer.js/) - For the interactive prompt
-- [Boxen](https://github.com/sindresorhus/boxen) - For the sleek borders
-- [Chalk](https://github.com/chalk/chalk) - For terminal string styling
+- [Chalk](https://github.com/chalk/chalk) - For truecolor styling
+- Node's `readline` keypress events for the one-key controls; the card, border gradient and pixel art are drawn by hand (`src/card.ts`, `src/pixels.ts`)
 - [QRCode-Terminal](https://github.com/gtanner/qrcode-terminal) - For rendering the QR code
 
 ## 📦 Local Development
