@@ -1,15 +1,20 @@
 {
   "name": "ganeshak11",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "A personal DevCard for Ganesh Angadi",
-  "main": "index.js",
+  "main": "dist/index.js",
   "type": "module",
   "bin": {
     "ganeshak11": "dist/index.js"
   },
+  "files": [
+    "dist",
+    "profile.json"
+  ],
   "scripts": {
     "build": "tsc",
-    "start": "node ./dist/index.js"
+    "start": "node ./dist/index.js",
+    "prepublishOnly": "npm run build"
   },
   "author": "Ganesh Angadi",
   "license": "ISC",
@@ -26,5 +31,8 @@
     "open": "^11.0.0",
     "ora": "^9.4.1",
     "qrcode-terminal": "^0.12.0"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

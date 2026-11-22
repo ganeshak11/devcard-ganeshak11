@@ -1,0 +1,19 @@
+{
+  "name": "Ganesh Angadi",
+  "role": "DevOps Engineer & System Architect",
+  "quote": "Infrastructure should heal itself.",
+  "email": "ganeshangadi13012006@gmail.com",
+  "githubUser": "ganeshak11",
+  "links": {
+    "portfolio": "https://ganeshangadi.online",
+    "github": "https://github.com/ganeshak11",
+    "linkedin": "https://linkedin.com/in/ganeshangadi1301",
+    "resume": "https://ganeshangadi.online/Resume/ganesh-angadi-resume.pdf"
+  },
+  "stack": ["Docker", "Kubernetes", "Terraform", "AWS", "GitHub Actions", "Linux", "Git"],
+  "building": {
+    "title": "Fortis-CI",
+    "description": "Graph-native deployment observability"
+  },
+  "nowUrl": null
+}

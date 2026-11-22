@@ -15,9 +15,47 @@ npx ganeshak11
 ## ✨ Features
 
 - **Beautiful UI**: Built using `boxen` and `chalk` for a clean, colorful, and responsive terminal layout.
-- **Interactive Command Palette**: Navigate through different sections using your arrow keys via `inquirer`.
+- **Interactive Command Palette**: Type to search or use the arrow keys. Search also matches each item's description.
+- **Live data**: Repo count, total stars and the three most recently pushed repos come straight from the GitHub API (with a short timeout, so the card never hangs).
+- **Latest Projects**: Recently pushed repos with descriptions and links.
+- **Copy Contact**: Copies the email or a link to your clipboard (`pbcopy`, `clip`, `wl-copy`, `xclip` or `xsel`, with an OSC 52 fallback for terminals over SSH).
+- **Save vCard**: Saves a `.vcf` contact card to your Downloads folder.
+- **Run Fortis HealthCheck**: Checks any domain with [`@fortis-tools/healthcheck`](https://github.com/Fortis-Tools/healthcheck) without leaving the card.
 - **Scannable QR Code**: Scan the terminal with your phone to instantly visit my portfolio site using `qrcode-terminal`.
-- **Easter Egg Animation**: Trigger the "Summon the Duck" option for a fun terminal buffer animation!
+- **Non-interactive mode**: `--plain` prints the card as text and `--json` prints the profile, for piping and READMEs. When the output isn't a terminal, `--plain` is used automatically.
+
+## 🎛️ Options
+
+| Flag | What it does |
+|---|---|
+| `--plain` | Print the card as plain text and exit |
+| `--json` | Print the profile (plus live GitHub data) as JSON and exit |
+| `--no-anim` | Skip the start-up spinner |
+| `--offline` | Don't fetch live data from GitHub |
+| `--version` | Print the version |
+| `--help` | Show the options |
+
+```bash
+npx ganeshak11 --plain > card.txt
+npx ganeshak11 --json | jq .links
+```
+
+## ✏️ Editing the card
+
+The bio, links, stack and "Building" line live in [`profile.json`](profile.json), so changing the card means editing data, not code. The same file can feed the portfolio site.
+
+To change "Building" without publishing a new version, host a JSON file such as
+`{"building": {"title": "Fortis-CI", "description": "Graph-native deployment observability"}}`
+and set `nowUrl` in `profile.json` to its URL. The card falls back to the `building` value in `profile.json` when the URL can't be reached.
+
+## 🚢 Releasing
+
+Pushing a tag like `v2.2.0` runs [`.github/workflows/publish.yml`](.github/workflows/publish.yml): it checks the tag matches `package.json`, builds, smoke-tests and publishes to npm. It needs an `NPM_TOKEN` repository secret.
+
+```bash
+npm version minor
+git push --follow-tags
+```
 
 ## 🛠️ Built With
 
