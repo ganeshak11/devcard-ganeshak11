@@ -44,6 +44,13 @@ const flags = {
 };
 
 const LIVE_TIMEOUT_MS = 1500;
+
+/**
+ * ora divides by stdout.columns to count the lines it must clear. Some ptys (IDE and agent
+ * terminals, some CI runners) report 0 columns, which makes that Infinity: ora then writes
+ * "cursor up + clear line" forever and the buffered output grows by gigabytes.
+ */
+const spinnerSafe = () => Boolean(process.stdout.isTTY && (process.stdout.columns ?? 0) > 0);
 const DOMAIN_RE = /^(?=.{1,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/i;
 const cleanDomain = (v: string) => v.trim().replace(/^https?:\/\//i, '').replace(/\/.*$/, '');
 
@@ -121,7 +128,7 @@ async function copyContact() {
 async function showProjects(live: LiveData | null) {
     let gh = live?.github ?? null;
     if (!gh && !flags.offline) {
-        const spinner = ora('Fetching from GitHub...').start();
+        const spinner = ora({ text: 'Fetching from GitHub...', isEnabled: spinnerSafe() }).start();
         gh = await fetchGitHub(profile.githubUser).catch(() => null);
         spinner.stop();
     }
@@ -210,7 +217,7 @@ async function main() {
     if (flags.noAnim) {
         live = await livePromise;
     } else {
-        const spinner = ora('Initializing profile...').start();
+        const spinner = ora({ text: 'Initializing profile...', isEnabled: spinnerSafe() }).start();
         // Show the spinner for at least 600 ms; the live fetch runs in the same window.
         [live] = await Promise.all([livePromise, new Promise(resolve => setTimeout(resolve, 600))]);
         spinner.stop();
