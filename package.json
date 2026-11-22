@@ -2,6 +2,11 @@
   "name": "ganeshak11",
   "version": "2.2.0",
   "description": "A personal DevCard for Ganesh Angadi",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ganeshak11/devcard-ganeshak11.git"
+  },
+  "homepage": "https://github.com/ganeshak11/devcard-ganeshak11#readme",
   "main": "dist/index.js",
   "type": "module",
   "bin": {
